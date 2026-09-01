@@ -3,7 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>B-Loan</title>
+  <title>B-Loan - Jisajili</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     * {
@@ -79,6 +81,10 @@
       cursor: pointer;
     }
 
+    button:disabled {
+      background: #888;
+    }
+
     .login {
       text-align: center;
       margin-top: 20px;
@@ -90,15 +96,10 @@
       font-weight: bold;
     }
 
-    .login a:hover {
-      text-decoration: underline;
-    }
-
-    footer {
+    #message {
+      margin-top: 15px;
       text-align: center;
-      margin-top: 30px;
-      color: #777;
-      font-size: 14px;
+      font-weight: bold;
     }
   </style>
 </head>
@@ -111,24 +112,29 @@
   </header>
 
   <div class="container">
-
     <div class="card">
 
       <h2>Jisajili</h2>
 
-      <label>Jina kamili</label>
-      <input type="text" placeholder="Andika jina lako">
+      <form id="signupForm">
 
-      <label>Namba ya simu</label>
-      <input type="tel" placeholder="07XXXXXXXX">
+        <label>Jina kamili</label>
+        <input id="fullName" type="text" placeholder="Andika jina lako" required>
 
-      <label>Barua pepe</label>
-      <input type="email" placeholder="example@email.com">
+        <label>Namba ya simu</label>
+        <input id="phone" type="tel" placeholder="07XXXXXXXX" required>
 
-      <label>Nywila</label>
-      <input type="password" placeholder="Weka nywila">
+        <label>Barua pepe</label>
+        <input id="email" type="email" placeholder="example@email.com" required>
 
-      <button onclick="register()">JISAJILI</button>
+        <label>Nywila</label>
+        <input id="password" type="password" placeholder="Weka nywila" minlength="6" required>
+
+        <button id="signupButton" type="submit">JISAJILI</button>
+
+      </form>
+
+      <div id="message"></div>
 
       <div class="login">
         Tayari una akaunti?
@@ -136,17 +142,67 @@
       </div>
 
     </div>
-
-    <footer>
-      © 2026 B-Loan. All rights reserved.
-    </footer>
-
   </div>
 
   <script>
-    function register() {
-      alert("Usajili wa B-Loan umepokelewa!");
-    }
+
+    // WEKA TAARIFA ZAKO HAPA
+    const SUPABASE_URL = "WEKA_PROJECT_URL_HAPA";
+    const SUPABASE_KEY = "WEKA_PUBLISHABLE_KEY_HAPA";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      https://hlpwblrpcomjwxrlpgmn.supabase.co/rest/v1/
+      SUPABASE_KEY
+      sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p
+    );
+
+    const form = document.getElementById("signupForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("signupButton");
+
+    form.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const fullName = document.getElementById("fullName").value.trim();
+      const phone = document.getElementById("phone").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      button.disabled = true;
+      button.textContent = "Inasajili...";
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email: email,
+        password: password,
+        options: {
+          data: {
+            full_name: fullName,
+            phone: phone
+          }
+        }
+      });
+
+      if (error) {
+
+        message.textContent = "Usajili umeshindikana: " + error.message;
+        message.style.color = "red";
+
+      } else {
+
+        message.textContent =
+          "Usajili umefanikiwa! Tafadhali angalia email yako.";
+        message.style.color = "green";
+
+        form.reset();
+      }
+
+      button.disabled = false;
+      button.textContent = "JISAJILI";
+
+    });
+
   </script>
 
 </body>
