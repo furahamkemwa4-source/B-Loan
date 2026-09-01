@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-Loan - Ingia</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      text-align: center;
+      padding: 22px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 30px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .register {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .register a {
+      color: #0b5ed7;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>B-Loan</h1>
+    <p>Karibu tena</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+
+      <h2>Ingia kwenye akaunti</h2>
+
+      <label>Namba ya simu</label>
+      <input type="tel" placeholder="07XXXXXXXX">
+
+      <label>Nywila</label>
+      <input type="password" placeholder="Weka nywila">
+
+      <button onclick="login()">INGIA</button>
+
+      <div class="register">
+        Huna akaunti?
+        <a href="index.html">Jisajili</a>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    function login() {
+      alert("Login system itaunganishwa na database kwenye hatua inayofuata.");
+    }
+  </script>
+
+</body>
+</html>
