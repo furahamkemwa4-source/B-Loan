@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-Loan</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f4f7fb;
+      color: #222;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 22px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 30px;
+    }
+
+    header p {
+      margin-top: 6px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      margin-bottom: 15px;
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 14px;
+      margin-bottom: 6px;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 20px;
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background: #084298;
+    }
+
+    .login {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .login a {
+      color: #0b5ed7;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 30px;
+      color: #777;
+      font-size: 14px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <h1>B-Loan</h1>
+    <p>Karibu kwenye huduma ya mikopo</p>
+  </header>
+
+  <div class="container">
+    <div class="card">
+
+      <h2>Jisajili</h2>
+
+      <label>Jina kamili</label>
+      <input type="text" placeholder="Andika jina lako">
+
+      <label>Namba ya simu</label>
+      <input type="tel" placeholder="07XXXXXXXX">
+
+      <label>Barua pepe</label>
+      <input type="email" placeholder="example@email.com">
+
+      <label>Nywila</label>
+      <input type="password" placeholder="Weka nywila">
+
+      <button onclick="register()">JISAJILI</button>
+
+      <div class="login">
+        Tayari una akaunti?
+        <a href="#">Ingia</a>
+      </div>
+
+    </div>
+
+    <footer>
+      © 2026 B-Loan. All rights reserved.
+    </footer>
+  </div>
+
+  <script>
+    function register() {
+      alert("Usajili wa B-Loan umepokelewa!");
+    }
+  </script>
+
+</body>
+</html>
