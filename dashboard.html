@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-Loan - Dashboard</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 25px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .loan-button {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      background: #0b5ed7;
+      color: white;
+      text-align: center;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+
+    .logout {
+      background: #dc3545;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>B-Loan</h1>
+  <p>Dashboard yako</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <h2>Karibu kwenye B-Loan 👋</h2>
+
+    <p>
+      Umeingia kwenye akaunti yako kwa mafanikio.
+    </p>
+
+    <a href="#" class="loan-button">
+      OMBA MKOPO
+    </a>
+  </div>
+
+  <div class="card">
+    <h2>Akaunti yangu</h2>
+
+    <p>Hapa tutaweka taarifa zako.</p>
+
+    <button class="logout" onclick="logout()">
+      TOKA
+    </button>
+  </div>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href = "login.html";
+
+}
+
+</script>
+
+</body>
+</html>
