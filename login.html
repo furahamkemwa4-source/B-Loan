@@ -8,27 +8,17 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
     body {
+      font-family: Arial, sans-serif;
       background: #f4f7fb;
-      color: #222;
+      margin: 0;
     }
 
     header {
       background: #0b5ed7;
       color: white;
       text-align: center;
-      padding: 25px 15px;
-    }
-
-    header h1 {
-      font-size: 32px;
+      padding: 25px;
     }
 
     .container {
@@ -46,19 +36,19 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
     }
 
     label {
       display: block;
       margin-top: 15px;
-      margin-bottom: 7px;
       font-weight: bold;
     }
 
     input {
       width: 100%;
       padding: 13px;
+      margin-top: 7px;
+      box-sizing: border-box;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
@@ -76,13 +66,9 @@
       font-weight: bold;
     }
 
-    button:disabled {
-      background: #888;
-    }
-
     #message {
-      margin-top: 15px;
       text-align: center;
+      margin-top: 15px;
       font-weight: bold;
     }
 
@@ -93,7 +79,6 @@
 
     .register a {
       color: #0b5ed7;
-      text-decoration: none;
       font-weight: bold;
     }
   </style>
@@ -101,103 +86,93 @@
 
 <body>
 
-  <header>
-    <h1>B-Loan</h1>
-    <p>Karibu tena</p>
-  </header>
+<header>
+  <h1>B-Loan</h1>
+  <p>Karibu tena</p>
+</header>
 
-  <div class="container">
-    <div class="card">
+<div class="container">
+  <div class="card">
 
-      <h2>Ingia</h2>
+    <h2>Ingia</h2>
 
-      <form id="loginForm">
+    <form id="loginForm">
 
-        <label>Barua pepe</label>
-        <input
-          id="email"
-          type="email"
-          placeholder="example@email.com"
-          required
-        >
+      <label>Barua pepe</label>
+      <input id="email" type="email"
+             placeholder="example@email.com" required>
 
-        <label>Nywila</label>
-        <input
-          id="password"
-          type="password"
-          placeholder="Weka nywila"
-          required
-        >
+      <label>Nywila</label>
+      <input id="password" type="password"
+             placeholder="Weka nywila" required>
 
-        <button id="loginButton" type="submit">
-          INGIA
-        </button>
+      <button type="submit" id="loginButton">
+        INGIA
+      </button>
 
-      </form>
+    </form>
 
-      <div id="message"></div>
+    <div id="message"></div>
 
-      <div class="register">
-        Huna akaunti?
-        <a href="index.html">Jisajili</a>
-      </div>
-
+    <div class="register">
+      Huna akaunti?
+      <a href="index.html">Jisajili</a>
     </div>
+
   </div>
+</div>
 
-  <script>
+<script>
 
-    const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co/rest/v1/";
-    const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
+const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co/rest/v1/";
+const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-    const form = document.getElementById("loginForm");
-    const message = document.getElementById("message");
-    const button = document.getElementById("loginButton");
+document.getElementById("loginForm").addEventListener("submit", async function(e) {
 
-    form.addEventListener("submit", async function(event) {
+  e.preventDefault();
 
-      event.preventDefault();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+  const button = document.getElementById("loginButton");
+  const message = document.getElementById("message");
 
-      button.disabled = true;
-      button.textContent = "Inaingia...";
+  button.disabled = true;
+  button.textContent = "Inaingia...";
 
-      const { data, error } =
-        await supabaseClient.auth.signInWithPassword({
-          email: email,
-          password: password
-        });
-
-      if (error) {
-
-        message.textContent =
-          "Login imeshindikana: " + error.message;
-
-        message.style.color = "red";
-
-      } else {
-
-        message.textContent =
-          "Umeingia kwenye B-Loan!";
-
-        message.style.color = "green";
-
-        // Kwa sasa tunabaki kwenye ukurasa huu
-      }
-
-      button.disabled = false;
-      button.textContent = "INGIA";
-
+  const { data, error } =
+    await supabaseClient.auth.signInWithPassword({
+      email: email,
+      password: password
     });
 
-  </script>
+  if (error) {
+
+    message.textContent =
+      "Login imeshindikana: " + error.message;
+
+    message.style.color = "red";
+
+  } else {
+
+    message.textContent =
+      "Umeingia kwenye B-Loan!";
+
+    message.style.color = "green";
+
+  }
+
+  button.disabled = false;
+  button.textContent = "INGIA";
+
+});
+
+</script>
 
 </body>
 </html>
