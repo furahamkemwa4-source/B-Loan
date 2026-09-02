@@ -8,15 +8,10 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-    }
-
     body {
+      font-family: Arial, sans-serif;
       background: #f4f7fb;
+      margin: 0;
       color: #222;
     }
 
@@ -24,15 +19,7 @@
       background: #0b5ed7;
       color: white;
       text-align: center;
-      padding: 25px 15px;
-    }
-
-    header h1 {
-      font-size: 32px;
-    }
-
-    header p {
-      margin-top: 8px;
+      padding: 25px;
     }
 
     .container {
@@ -50,19 +37,19 @@
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
     }
 
     label {
       display: block;
       margin-top: 15px;
-      margin-bottom: 7px;
       font-weight: bold;
     }
 
     input {
       width: 100%;
       padding: 13px;
+      margin-top: 7px;
+      box-sizing: border-box;
       border: 1px solid #ccc;
       border-radius: 8px;
       font-size: 16px;
@@ -78,11 +65,12 @@
       border-radius: 8px;
       font-size: 17px;
       font-weight: bold;
-      cursor: pointer;
     }
 
-    button:disabled {
-      background: #888;
+    #message {
+      text-align: center;
+      margin-top: 15px;
+      font-weight: bold;
     }
 
     .login {
@@ -92,13 +80,6 @@
 
     .login a {
       color: #0b5ed7;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    #message {
-      margin-top: 15px;
-      text-align: center;
       font-weight: bold;
     }
   </style>
@@ -106,103 +87,101 @@
 
 <body>
 
-  <header>
-    <h1>B-Loan</h1>
-    <p>Karibu kwenye huduma ya mikopo</p>
-  </header>
+<header>
+  <h1>B-Loan</h1>
+  <p>Karibu kwenye huduma ya mikopo</p>
+</header>
 
-  <div class="container">
-    <div class="card">
+<div class="container">
+  <div class="card">
 
-      <h2>Jisajili</h2>
+    <h2>Jisajili</h2>
 
-      <form id="signupForm">
+    <form id="signupForm">
 
-        <label>Jina kamili</label>
-        <input id="fullName" type="text" placeholder="Andika jina lako" required>
+      <label>Jina kamili</label>
+      <input id="fullName" type="text" placeholder="Andika jina lako" required>
 
-        <label>Namba ya simu</label>
-        <input id="phone" type="tel" placeholder="07XXXXXXXX" required>
+      <label>Namba ya simu</label>
+      <input id="phone" type="tel" placeholder="07XXXXXXXX" required>
 
-        <label>Barua pepe</label>
-        <input id="email" type="email" placeholder="example@email.com" required>
+      <label>Barua pepe</label>
+      <input id="email" type="email" placeholder="example@email.com" required>
 
-        <label>Nywila</label>
-        <input id="password" type="password" placeholder="Weka nywila" minlength="6" required>
+      <label>Nywila</label>
+      <input id="password" type="password" placeholder="Weka nywila" minlength="6" required>
 
-        <button id="signupButton" type="submit">JISAJILI</button>
+      <button type="submit" id="signupButton">JISAJILI</button>
 
-      </form>
+    </form>
 
-      <div id="message"></div>
+    <div id="message"></div>
 
-      <div class="login">
-        Tayari una akaunti?
-        <a href="login.html">Ingia</a>
-      </div>
-
+    <div class="login">
+      Tayari una akaunti?
+      <a href="login.html">Ingia</a>
     </div>
+
   </div>
+</div>
 
-  <script>
+<script>
 
-  
-    
 const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co/rest/v1/";
-    const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
+const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
 
-    const supabaseClient = window.supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
-    const form = document.getElementById("signupForm");
-    const message = document.getElementById("message");
-    const button = document.getElementById("signupButton");
+document.getElementById("signupForm").addEventListener("submit", async function(e) {
 
-    form.addEventListener("submit", async function(event) {
+  e.preventDefault();
 
-      event.preventDefault();
+  const fullName = document.getElementById("fullName").value.trim();
+  const phone = document.getElementById("phone").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
 
-      const fullName = document.getElementById("fullName").value.trim();
-      const phone = document.getElementById("phone").value.trim();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value;
+  const button = document.getElementById("signupButton");
+  const message = document.getElementById("message");
 
-      button.disabled = true;
-      button.textContent = "Inasajili...";
+  button.disabled = true;
+  button.textContent = "Inasajili...";
 
-      const { data, error } = await supabaseClient.auth.signUp({
-        email: email,
-        password: password,
-        options: {
-          data: {
-            full_name: fullName,
-            phone: phone
-          }
-        }
-      });
-
-      if (error) {
-
-        message.textContent = "Usajili umeshindikana: " + error.message;
-        message.style.color = "red";
-
-      } else {
-
-        message.textContent =
-          "Usajili umefanikiwa! Tafadhali angalia email yako.";
-        message.style.color = "green";
-
-        form.reset();
+  const { data, error } = await supabaseClient.auth.signUp({
+    email: email,
+    password: password,
+    options: {
+      data: {
+        full_name: fullName,
+        phone: phone
       }
+    }
+  });
 
-      button.disabled = false;
-      button.textContent = "JISAJILI";
+  if (error) {
 
-    });
+    message.textContent = "Usajili umeshindikana: " + error.message;
+    message.style.color = "red";
 
-  </script>
+  } else {
+
+    message.textContent =
+      "Usajili umefanikiwa! Angalia email yako kuthibitisha akaunti.";
+
+    message.style.color = "green";
+
+    document.getElementById("signupForm").reset();
+  }
+
+  button.disabled = false;
+  button.textContent = "JISAJILI";
+
+});
+
+</script>
 
 </body>
 </html>
