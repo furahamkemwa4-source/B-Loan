@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>B-Loan - Ingia</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     * {
       box-sizing: border-box;
@@ -15,13 +17,18 @@
 
     body {
       background: #f4f7fb;
+      color: #222;
     }
 
     header {
       background: #0b5ed7;
       color: white;
       text-align: center;
-      padding: 22px;
+      padding: 25px 15px;
+    }
+
+    header h1 {
+      font-size: 32px;
     }
 
     .container {
@@ -45,7 +52,7 @@
     label {
       display: block;
       margin-top: 15px;
-      margin-bottom: 6px;
+      margin-bottom: 7px;
       font-weight: bold;
     }
 
@@ -66,6 +73,16 @@
       border: none;
       border-radius: 8px;
       font-size: 17px;
+      font-weight: bold;
+    }
+
+    button:disabled {
+      background: #888;
+    }
+
+    #message {
+      margin-top: 15px;
+      text-align: center;
       font-weight: bold;
     }
 
@@ -92,15 +109,33 @@
   <div class="container">
     <div class="card">
 
-      <h2>Ingia kwenye akaunti</h2>
+      <h2>Ingia</h2>
 
-      <label>Namba ya simu</label>
-      <input type="tel" placeholder="07XXXXXXXX">
+      <form id="loginForm">
 
-      <label>Nywila</label>
-      <input type="password" placeholder="Weka nywila">
+        <label>Barua pepe</label>
+        <input
+          id="email"
+          type="email"
+          placeholder="example@email.com"
+          required
+        >
 
-      <button onclick="login()">INGIA</button>
+        <label>Nywila</label>
+        <input
+          id="password"
+          type="password"
+          placeholder="Weka nywila"
+          required
+        >
+
+        <button id="loginButton" type="submit">
+          INGIA
+        </button>
+
+      </form>
+
+      <div id="message"></div>
 
       <div class="register">
         Huna akaunti?
@@ -111,9 +146,57 @@
   </div>
 
   <script>
-    function login() {
-      alert("Login system itaunganishwa na database kwenye hatua inayofuata.");
-    }
+
+    const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co/rest/v1/";
+    const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
+
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+    const form = document.getElementById("loginForm");
+    const message = document.getElementById("message");
+    const button = document.getElementById("loginButton");
+
+    form.addEventListener("submit", async function(event) {
+
+      event.preventDefault();
+
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value;
+
+      button.disabled = true;
+      button.textContent = "Inaingia...";
+
+      const { data, error } =
+        await supabaseClient.auth.signInWithPassword({
+          email: email,
+          password: password
+        });
+
+      if (error) {
+
+        message.textContent =
+          "Login imeshindikana: " + error.message;
+
+        message.style.color = "red";
+
+      } else {
+
+        message.textContent =
+          "Umeingia kwenye B-Loan!";
+
+        message.style.color = "green";
+
+        // Kwa sasa tunabaki kwenye ukurasa huu
+      }
+
+      button.disabled = false;
+      button.textContent = "INGIA";
+
+    });
+
   </script>
 
 </body>
