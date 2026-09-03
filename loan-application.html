@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-Loan - Omba Mkopo</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    .container {
+      max-width: 550px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 13px;
+      margin-top: 7px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 22px;
+      background: #0b5ed7;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: bold;
+    }
+
+    .back {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #0b5ed7;
+      font-weight: bold;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>B-Loan</h1>
+  <p>Omba Mkopo</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>Fomu ya Maombi ya Mkopo</h2>
+
+    <form>
+
+      <label>Kiasi cha mkopo (TSh)</label>
+      <input
+        type="number"
+        placeholder="Mfano: 100000"
+        required
+      >
+
+      <label>Muda wa marejesho</label>
+      <select required>
+        <option value="">Chagua muda</option>
+        <option>7 Days</option>
+        <option>14 Days</option>
+        <option>30 Days</option>
+        <option>60 Days</option>
+        <option>90 Days</option>
+      </select>
+
+      <label>Sababu ya kuomba mkopo</label>
+      <input
+        type="text"
+        placeholder="Mfano: Biashara"
+        required
+      >
+
+      <label>Namba ya simu</label>
+      <input
+        type="tel"
+        placeholder="07XXXXXXXX"
+        required
+      >
+
+      <button type="submit">
+        TUMA MAOMBI
+      </button>
+
+    </form>
+
+    <a href="dashboard.html" class="back">
+      ← Rudi Dashboard
+    </a>
+
+  </div>
+
+</div>
+
+</body>
+</html>
