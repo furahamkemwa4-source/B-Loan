@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="sw">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>B-Loan - Admin</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      margin: 0;
+      color: #222;
+    }
+
+    header {
+      background: #0b5ed7;
+      color: white;
+      padding: 25px 20px;
+    }
+
+    header h1 {
+      margin: 0;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 25px auto;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      margin-bottom: 20px;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 800px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background: #f1f1f1;
+    }
+
+    .message {
+      text-align: center;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>B-Loan Admin</h1>
+  <p>Maombi ya mikopo</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+
+    <h2>Maombi yote ya mkopo</h2>
+
+    <div id="message" class="message">
+      Inapakia...
+    </div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Jina</th>
+          <th>Simu</th>
+          <th>Kiasi</th>
+          <th>Muda</th>
+          <th>Sababu</th>
+          <th>Status</th>
+          <th>Tarehe</th>
+        </tr>
+      </thead>
+
+      <tbody id="loanTable">
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+<script>
+
+const SUPABASE_URL = "https://hlpwblrpcomjwxrlpgmn.supabase.co";
+const SUPABASE_KEY = "sb_publishable_kQRblGJQs7i8Hv3IAkfIog_Zghpin8p";
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
+
+async function loadLoans() {
+
+  const { data, error } = await supabaseClient
+    .from("loan_application")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  const message = document.getElementById("message");
+  const table = document.getElementById("loanTable");
+
+  if (error) {
+    message.textContent = "Imeshindikana kupakia: " + error.message;
+    message.style.color = "red";
+    return;
+  }
+
+  message.textContent = "";
+
+  if (!data || data.length === 0) {
+    message.textContent = "Hakuna maombi ya mkopo bado.";
+    return;
+  }
+
+  data.forEach(function(loan) {
+
+    const row = document.createElement("tr");
+
+    row.innerHTML = `
+      <td>${loan.full_name || ""}</td>
+      <td>${loan.phone || ""}</td>
+      <td>${loan.amount || ""}</td>
+      <td>${loan.repayment_period || ""}</td>
+      <td>${loan.reason || ""}</td>
+      <td>${loan.status || "pending"}</td>
+      <td>${loan.created_at ? new Date(loan.created_at).toLocaleString() : ""}</td>
+    `;
+
+    table.appendChild(row);
+
+  });
+
+}
+
+loadLoans();
+
+</script>
+
+</body>
+</html>
