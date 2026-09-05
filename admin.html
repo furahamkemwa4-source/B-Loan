@@ -90,6 +90,7 @@
           <th>Kiasi Kilichoidhinishwa</th>
           <th>Riba</th>
           <th>Muda</th>
+          <th>Tarehe ya mwisho</th>
           <th>Sababu</th>
           <th>Status</th>
           <th>Tarehe</th>
@@ -163,6 +164,13 @@ async function loadLoans() {
   >
 </td>
 <td>${loan.repayment_period || ""}</td>
+<td>
+  <input
+    type="date"
+    value="${loan.due_date || ""}"
+    onchange="updateDueDate('${loan.id}', this.value)"
+  >
+</td>
       <td>${loan.reason || ""}</td>
       <td>
   <select onchange="updateStatus('${loan.id}', this.value)">
@@ -225,6 +233,20 @@ async function updateApprovedAmount(id, amount) {
 
   alert("Riba imehifadhiwa.");
 } 
+async function updateDueDate(id, dueDate) {
+
+  const { error } = await supabaseClient
+    .from("loan_application")
+    .update({ due_date: dueDate })
+    .eq("id", id);
+
+  if (error) {
+    alert("Tarehe haijahifadhiwa: " + error.message);
+    return;
+  }
+
+  alert("Tarehe ya mwisho imehifadhiwa.");
+}  
 </script>
 
 </body>
