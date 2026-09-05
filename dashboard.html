@@ -117,6 +117,13 @@ const supabaseClient = window.supabase.createClient(
 );
 
 async function logout() {
+
+  await supabaseClient.auth.signOut();
+
+  window.location.href = "login.html";
+
+}
+
 async function loadLoanStatus() {
 
   const { data: { user } } = await supabaseClient.auth.getUser();
@@ -153,11 +160,6 @@ async function loadLoanStatus() {
 }
 
 loadLoanStatus();
-  await supabaseClient.auth.signOut();
-
-  window.location.href = "login.html";
-
-}
 
 </script>
 
