@@ -89,6 +89,7 @@
 
   <p id="loanStatus">Inapakia...</p>
   <p id="loanAmount"></p>
+  <p id="loanApprovedAmount"></p>
   <p id="loanPeriod"></p>
   <p id="loanDate"></p>
 </div>
@@ -134,7 +135,7 @@ async function loadLoanStatus() {
 
   const { data, error } = await supabaseClient
     .from("loan_application")
-    .select("amount, repayment_period, status, created_at")
+    .select("amount, approved_amount, repayment_period, status, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
@@ -159,7 +160,10 @@ if (data.status === "approved") {
 } 
 
   document.getElementById("loanAmount").textContent =
-    "Kiasi: TSh " + data.amount;
+  "Kiasi ulichoomba: TSh " + data.amount;
+
+document.getElementById("loanApprovedAmount").textContent =
+  "Kiasi kilichoidhinishwa: TSh " + (data.approved_amount || "Bado hakijawekwa");
 
   document.getElementById("loanPeriod").textContent =
     "Muda: " + data.repayment_period;
