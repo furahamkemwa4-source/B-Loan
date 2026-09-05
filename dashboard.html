@@ -91,6 +91,7 @@
   <p id="loanAmount"></p>
   <p id="loanApprovedAmount"></p>
   <p id="loanInterest"></p>
+  <p id="loanTotalRepayment"></p>
   <p id="loanPeriod"></p>
   <p id="loanDate"></p>
 </div>
@@ -167,6 +168,11 @@ document.getElementById("loanApprovedAmount").textContent =
   "Kiasi kilichoidhinishwa: TSh " + (data.approved_amount || "Bado hakijawekwa");
   document.getElementById("loanInterest").textContent =
   "Riba: TSh " + (data.interest || "Bado haijawekwa");
+  const totalRepayment =
+  Number(data.approved_amount || 0) + Number(data.interest || 0);
+
+document.getElementById("loanTotalRepayment").textContent =
+  "Jumla ya kurejesha: TSh " + totalRepayment;
 
   document.getElementById("loanPeriod").textContent =
     "Muda: " + data.repayment_period;
