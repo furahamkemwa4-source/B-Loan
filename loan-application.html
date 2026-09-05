@@ -169,7 +169,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(e)
   const phone = document.getElementById("phone").value;
 
   const { data: { user } } = await supabaseClient.auth.getUser();
-const fullName = user.user_metadata?.full_name || "";
+const fullName = user.user_metadata?.display_name || "";
   if (!user) {
     alert("Tafadhali ingia kwanza.");
     window.location.href = "login.html";
