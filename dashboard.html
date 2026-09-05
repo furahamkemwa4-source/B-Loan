@@ -146,8 +146,17 @@ async function loadLoanStatus() {
     return;
   }
 
-  document.getElementById("loanStatus").textContent =
-    "Status: " + data.status;
+ const statusElement = document.getElementById("loanStatus");
+
+statusElement.textContent = "Status: " + data.status;
+
+if (data.status === "approved") {
+  statusElement.style.color = "green";
+} else if (data.status === "rejected") {
+  statusElement.style.color = "red";
+} else {
+  statusElement.style.color = "orange";
+} 
 
   document.getElementById("loanAmount").textContent =
     "Kiasi: TSh " + data.amount;
