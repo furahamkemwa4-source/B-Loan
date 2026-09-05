@@ -88,6 +88,7 @@
           <th>Simu</th>
           <th>Kiasi</th>
           <th>Kiasi Kilichoidhinishwa</th>
+          <th>Riba</th>
           <th>Muda</th>
           <th>Sababu</th>
           <th>Status</th>
@@ -153,7 +154,14 @@ async function loadLoans() {
     onchange="updateApprovedAmount('${loan.id}', this.value)"
   >
 </td>
-
+<td>
+  <input
+    type="number"
+    value="${loan.interest || ""}"
+    placeholder="Weka riba"
+    onchange="updateInterest('${loan.id}', this.value)"
+  >
+</td>
 <td>${loan.repayment_period || ""}</td>
       <td>${loan.reason || ""}</td>
       <td>
@@ -203,6 +211,20 @@ async function updateApprovedAmount(id, amount) {
 
   alert("Kiasi kilichoidhinishwa kimehifadhiwa.");
 }
+ async function updateInterest(id, interest) {
+
+  const { error } = await supabaseClient
+    .from("loan_application")
+    .update({ interest: interest })
+    .eq("id", id);
+
+  if (error) {
+    alert("Riba haijahifadhiwa: " + error.message);
+    return;
+  }
+
+  alert("Riba imehifadhiwa.");
+} 
 </script>
 
 </body>
