@@ -84,7 +84,14 @@
       OMBA MKOPO
     </a>
   </div>
+<div class="card">
+  <h2>Status ya Ombi Lako</h2>
 
+  <p id="loanStatus">Inapakia...</p>
+  <p id="loanAmount"></p>
+  <p id="loanPeriod"></p>
+  <p id="loanDate"></p>
+</div>
   <div class="card">
     <h2>Akaunti yangu</h2>
 
@@ -110,7 +117,42 @@ const supabaseClient = window.supabase.createClient(
 );
 
 async function logout() {
+async function loadLoanStatus() {
 
+  const { data: { user } } = await supabaseClient.auth.getUser();
+
+  if (!user) {
+    return;
+  }
+
+  const { data, error } = await supabaseClient
+    .from("loan_application")
+    .select("amount, repayment_period, status, created_at")
+    .eq("user_id", user.id)
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .single();
+
+  if (error) {
+    document.getElementById("loanStatus").textContent =
+      "Hakuna ombi la mkopo lililopatikana.";
+    return;
+  }
+
+  document.getElementById("loanStatus").textContent =
+    "Status: " + data.status;
+
+  document.getElementById("loanAmount").textContent =
+    "Kiasi: TSh " + data.amount;
+
+  document.getElementById("loanPeriod").textContent =
+    "Muda: " + data.repayment_period;
+
+  document.getElementById("loanDate").textContent =
+    "Tarehe: " + new Date(data.created_at).toLocaleString();
+}
+
+loadLoanStatus();
   await supabaseClient.auth.signOut();
 
   window.location.href = "login.html";
