@@ -169,7 +169,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(e)
   const phone = document.getElementById("phone").value;
 
   const { data: { user } } = await supabaseClient.auth.getUser();
-
+const fullName = user.user_metadata?.full_name || "";
   if (!user) {
     alert("Tafadhali ingia kwanza.");
     window.location.href = "login.html";
@@ -180,6 +180,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(e)
     .from("loan_application")
     .insert({
       user_id: user.id,
+      full_name: fullName,
       amount: amount,
       repayment_period: repaymentPeriod,
       reason: reason,
