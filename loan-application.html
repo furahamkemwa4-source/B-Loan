@@ -177,7 +177,7 @@ document.getElementById("loanForm").addEventListener("submit", async function(e)
   }
 
   const { error } = await supabaseClient
-    .from("loan_applications")
+    .from("loan_application")
     .insert({
       user_id: user.id,
       amount: amount,
