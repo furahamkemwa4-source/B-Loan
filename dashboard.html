@@ -92,6 +92,7 @@
   <p id="loanApprovedAmount"></p>
   <p id="loanInterest"></p>
   <p id="loanTotalRepayment"></p>
+  <p id="loanDueDate"></p>
   <p id="loanPeriod"></p>
   <p id="loanDate"></p>
 </div>
@@ -137,7 +138,7 @@ async function loadLoanStatus() {
 
   const { data, error } = await supabaseClient
     .from("loan_application")
-    .select("amount, approved_amount, interest, repayment_period, status, created_at")
+    .select("amount, approved_amount, interest, repayment_period, status, due_date, created_at")
     .eq("user_id", user.id)
     .order("created_at", { ascending: false })
     .limit(1)
@@ -173,6 +174,9 @@ document.getElementById("loanApprovedAmount").textContent =
 
 document.getElementById("loanTotalRepayment").textContent =
   "Jumla ya kurejesha: TSh " + totalRepayment;
+  document.getElementById("loanDueDate").textContent =
+  "Tarehe ya mwisho ya kurejesha: " +
+  (data.due_date || "Bado haijawekwa");
 
   document.getElementById("loanPeriod").textContent =
     "Muda: " + data.repayment_period;
