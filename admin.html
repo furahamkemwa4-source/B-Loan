@@ -145,7 +145,13 @@ async function loadLoans() {
       <td>${loan.amount || ""}</td>
       <td>${loan.repayment_period || ""}</td>
       <td>${loan.reason || ""}</td>
-      <td>${loan.status || "pending"}</td>
+      <td>
+  <select onchange="updateStatus('${loan.id}', this.value)">
+    <option value="pending" ${loan.status === "pending" ? "selected" : ""}>Pending</option>
+    <option value="approved" ${loan.status === "approved" ? "selected" : ""}>Approved</option>
+    <option value="rejected" ${loan.status === "rejected" ? "selected" : ""}>Rejected</option>
+  </select>
+</td>
       <td>${loan.created_at ? new Date(loan.created_at).toLocaleString() : ""}</td>
     `;
 
@@ -156,7 +162,20 @@ async function loadLoans() {
 }
 
 loadLoans();
+async function updateStatus(id, status) {
 
+  const { error } = await supabaseClient
+    .from("loan_application")
+    .update({ status: status })
+    .eq("id", id);
+
+  if (error) {
+    alert("Status haijabadilishwa: " + error.message);
+    return;
+  }
+
+  alert("Status imebadilishwa kuwa: " + status);
+}
 </script>
 
 </body>
