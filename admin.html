@@ -87,6 +87,7 @@
           <th>Jina</th>
           <th>Simu</th>
           <th>Kiasi</th>
+          <th>Kiasi Kilichoidhinishwa</th>
           <th>Muda</th>
           <th>Sababu</th>
           <th>Status</th>
@@ -143,7 +144,17 @@ async function loadLoans() {
       <td>${loan.full_name || ""}</td>
       <td>${loan.phone || ""}</td>
       <td>${loan.amount || ""}</td>
-      <td>${loan.repayment_period || ""}</td>
+
+<td>
+  <input
+    type="number"
+    value="${loan.approved_amount || ""}"
+    placeholder="Weka kiasi"
+    onchange="updateApprovedAmount('${loan.id}', this.value)"
+  >
+</td>
+
+<td>${loan.repayment_period || ""}</td>
       <td>${loan.reason || ""}</td>
       <td>
   <select onchange="updateStatus('${loan.id}', this.value)">
@@ -175,6 +186,22 @@ async function updateStatus(id, status) {
   }
 
   alert("Status imebadilishwa kuwa: " + status);
+}
+
+
+async function updateApprovedAmount(id, amount) {
+
+  const { error } = await supabaseClient
+    .from("loan_application")
+    .update({ approved_amount: amount })
+    .eq("id", id);
+
+  if (error) {
+    alert("Kiasi hakijahifadhiwa: " + error.message);
+    return;
+  }
+
+  alert("Kiasi kilichoidhinishwa kimehifadhiwa.");
 }
 </script>
 
