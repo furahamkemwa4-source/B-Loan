@@ -147,7 +147,12 @@ async function loadLoanStatus() {
   .order("created_at", { ascending: false });
 
   if (error) {
-   if (!data || data.length === 0) {
+  document.getElementById("loanStatus").textContent =
+    "Imeshindikana kupata taarifa za mkopo.";
+  return;
+}
+
+if (!data || data.length === 0) {
   document.getElementById("loanStatus").textContent =
     "Hakuna ombi la mkopo lililopatikana.";
   return;
