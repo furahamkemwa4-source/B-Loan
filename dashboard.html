@@ -212,8 +212,8 @@ data.forEach((loan) => {
       <p><strong>Kiasi kilichoidhinishwa:</strong> TSh ${loan.approved_amount || "—"}</p>
       <p><strong>Riba:</strong> TSh ${loan.interest || "—"}</p>
       <p><strong>Jumla ya kurejesha:</strong> TSh ${totalRepayment}</p>
-      <p><strong>Muda:</strong> ${loan.repayment_period}</p>
-      <p><strong>Tarehe ya mwisho:</strong> ${loan.due_date || "—"}</p>
+      <p><strong>Muda:</strong> ${loan.repayment_period || "—"}</p>
+<p><strong>Tarehe ya mwisho:</strong> ${loan.due_date || "—"}</p>
       <p><strong>Status:</strong> ${loan.status}</p>
     </div>
   `;
