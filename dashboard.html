@@ -199,7 +199,9 @@ document.getElementById("loanDueDate").textContent =
 historyElement.innerHTML = "";
 
 data.forEach((loan) => {
-  const date = new Date(loan.created_at).toLocaleDateString("en-GB");
+  const date = loan.created_at
+  ? new Date(loan.created_at).toLocaleDateString("en-GB")
+  : "—";
 
   const totalRepayment =
     Number(loan.approved_amount || 0) +
