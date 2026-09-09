@@ -94,6 +94,9 @@
   <p id="loanInterest"></p>
   <p id="loanTotalRepayment"></p>
   <p id="loanDueDate"></p>
+  <h3>Historia ya Maombi Yangu</h3>
+
+<div id="loanHistory"></div>
   <p id="loanPeriod"></p>
   <p id="loanDate"></p>
 </div>
@@ -138,44 +141,78 @@ async function loadLoanStatus() {
   }
 
   const { data, error } = await supabaseClient
-    .from("loan_application")
-    .select("amount, approved_amount, interest, repayment_period, status, due_date, created_at")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .single();
+  .from("loan_application")
+  .select("amount, approved_amount, interest, repayment_period, status, due_date, created_at")
+  .eq("user_id", user.id)
+  .order("created_at", { ascending: false });
 
   if (error) {
-    document.getElementById("loanStatus").textContent =
-      "Hakuna ombi la mkopo lililopatikana.";
-    return;
-  }
+   if (!data || data.length === 0) {
+  document.getElementById("loanStatus").textContent =
+    "Hakuna ombi la mkopo lililopatikana.";
+  return;
+}
 
- const statusElement = document.getElementById("loanStatus");
+// Ombi la mwisho/current
+const latestLoan = data[0];
 
-statusElement.textContent = "Status: " + data.status;
+const statusElement = document.getElementById("loanStatus");
 
-if (data.status === "approved") {
+statusElement.textContent = "Status: " + latestLoan.status;
+
+if (latestLoan.status === "approved") {
   statusElement.style.color = "green";
-} else if (data.status === "rejected") {
+} else if (latestLoan.status === "rejected") {
   statusElement.style.color = "red";
 } else {
   statusElement.style.color = "orange";
-} 
+}
 
-  document.getElementById("loanAmount").textContent =
-  "Kiasi ulichoomba: TSh " + data.amount;
+document.getElementById("loanAmount").textContent =
+  "Kiasi ulichoomba: TSh " + latestLoan.amount;
 
 document.getElementById("loanApprovedAmount").textContent =
-  "Kiasi kilichoidhinishwa: TSh " + (data.approved_amount || "Bado hakijawekwa");
-  document.getElementById("loanInterest").textContent =
-  "Riba: TSh " + (data.interest || "Bado haijawekwa");
-  const totalRepayment =
-  Number(data.approved_amount || 0) + Number(data.interest || 0);
+  "Kiasi kilichoidhinishwa: TSh " +
+  (latestLoan.approved_amount || "Bado hakijawekwa");
+
+document.getElementById("loanInterest").textContent =
+  "Riba: TSh " +
+  (latestLoan.interest || "Bado haijawekwa");
+
+const totalRepayment =
+  Number(latestLoan.approved_amount || 0) +
+  Number(latestLoan.interest || 0);
 
 document.getElementById("loanTotalRepayment").textContent =
   "Jumla ya kurejesha: TSh " + totalRepayment;
-  document.getElementById("loanDueDate").textContent =
+
+document.getElementById("loanDueDate").textContent =
+  "Tarehe ya mwisho ya kurejesha: " +
+  (latestLoan.due_date || "Bado haijawekwa");
+    const historyElement = document.getElementById("loanHistory");
+
+historyElement.innerHTML = "";
+
+data.forEach((loan) => {
+  const date = new Date(loan.created_at).toLocaleDateString("en-GB");
+
+  const totalRepayment =
+    Number(loan.approved_amount || 0) +
+    Number(loan.interest || 0);
+
+  historyElement.innerHTML += `
+    <div style="border:1px solid #ddd; padding:15px; margin-top:10px; border-radius:8px;">
+      <p><strong>Tarehe:</strong> ${date}</p>
+      <p><strong>Kiasi ulichoomba:</strong> TSh ${loan.amount}</p>
+      <p><strong>Kiasi kilichoidhinishwa:</strong> TSh ${loan.approved_amount || "—"}</p>
+      <p><strong>Riba:</strong> TSh ${loan.interest || "—"}</p>
+      <p><strong>Jumla ya kurejesha:</strong> TSh ${totalRepayment}</p>
+      <p><strong>Muda:</strong> ${loan.repayment_period}</p>
+      <p><strong>Tarehe ya mwisho:</strong> ${loan.due_date || "—"}</p>
+      <p><strong>Status:</strong> ${loan.status}</p>
+    </div>
+  `;
+});
   "Tarehe ya mwisho ya kurejesha: " +
   (data.due_date || "Bado haijawekwa");
 
